@@ -1,0 +1,76 @@
+---
+title: "STAT464 Final Project"
+author: "Yingyu Ma, Yi Wang"
+date: "2025-04-25"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+    toc_float:
+      toc_collapsed: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Library & Dataset
+
+```{r,warning=FALSE,message=FALSE,echo=FALSE,results='hide'}
+library(ggplot2)
+library(dplyr)
+data <- read.csv("./pet_store_records_2020.csv")
+```
+
+# Introduction
+
+In this study, we analyze a dataset containing records from a pet store for the year 2020. The dataset captures various aspects of product performance, including the sales, customer rating and product re-purchase behavior. Key features include product category, price, country of origin, pet size, pet type, and whether veterinary approval was required for sale. This analysis focuses on investigating whether there are statistically significant differences and trends in the mean price among different pet sizes.
+
+**Features:**\
+product_id: Product ID.\
+product_category: Category of the product.\
+sales: Overall sales clocked during 2020.\
+price: Price of the product.\
+VAP: 'Veterinary Doctor's Approval' - Does this product need a approval before sale.\
+vendor_id: Supplier/Vendor ID where product was sourced from.\
+country: Product's country of origin.\
+pet_size: Size of the pet.\
+pet_type: Type of the pet.\
+rating: Customers' rating collected after product's use.\
+re_buy: whether the product was bought again.\
+
+Research Question: Is there statistical significant difference between the mean of price among different pet size?
+
+# Methodology
+
+
+
+
+# Data
+
+```{r}
+data <- data %>% 
+  mutate(price_usd = price*0.012)
+data$price_usd <- round(data$price_usd, 2)
+
+plot(data$price_usd)
+ggplot(data, aes(x = product_category, y = rating)) +
+  geom_boxplot()
+ggplot(data, aes(x = price_usd, y = sales)) +
+  geom_point() + 
+  facet_wrap(~ pet_size)
+ggplot(data, aes(x = price_usd, y = sales)) +
+  geom_point() + 
+  facet_wrap(~ pet_type)
+
+
+ggplot(data, aes(x = sales)) +
+  geom_histogram() + 
+  facet_wrap(~ pet_size)
+  
+```
+
+# Conclusion
+
+
