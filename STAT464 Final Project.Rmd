@@ -71,6 +71,39 @@ ggplot(data, aes(x = sales)) +
   
 ```
 
+```{r}
+## permutation ANOVA test 
+model1 <- aov(price ~ pet_size, data = data)
+summary(model1)
+plot(model1)
+res <- anova(aov(data$price~data$pet_size))
+res$`F value`[1]
+set.seed(1)
+permuANOVA(y = data$price, x = data$pet_size)
+
+## Kruskal-Wallis test
+kruskal.test(x = data$price, g = data$pet_size)
+```
+1)$H_0: \text{all mean ranks are the same} \\
+ H_a: \text{at least one mean rank is different}$ 
+2) Significant Level: $\alpha = 0.05$  
+3) Test Statistics: Chi-squared = $4.2205$  
+4) p-value: $0.377$  
+5) Conclusion: Since the p-value is $0.377$, we fail to reject the null hypothesis with a significant level of 0.05. We can conclude that there is no statistical significant evidence suggests that at least one mean rank is different. 
+
+```{r}
+data$pet_size <- factor(data$pet_size, levels = c("extra_small", "small", "medium", "large", "extra_large"), ordered = TRUE)
+## Jonckheere Terpstra Test
+JonckheereTerpstraTest(price ~ pet_size, data = data, alternative = "increasing")
+```
+1)$H_0: \mu_\text{extra small} = \mu_\text{small} = \mu_\text{medium} = \mu_\text{large} = \mu_\text{extra large}\\
+ H_a: \mu_\text{extra small} < \mu_\text{small} < \mu_\text{medium} < \mu_\text{large} < \mu_\text{extra large}$   
+2) Significant Level: $\alpha = 0.05$  
+3) Test Statistics: JT = $146361$  
+4) p-value: $0.4248$  
+5) Conclusion: Since the p-value is $0.4248$, we fail to reject the null hypothesis with a significant level of 0.05. We can conclude that there is no statistical significant evidence suggests that smaller pet size tend to be associated with lower price.  
+
+
 # Conclusion
 
 
